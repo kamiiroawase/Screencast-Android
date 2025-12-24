@@ -8,16 +8,16 @@ import androidx.core.content.edit
 
 class AppPreference(private val context: Application) {
     companion object {
-        private var instance: AppPreference? = null
+        private var INSTANCE: AppPreference? = null
 
         fun getInstance(): AppPreference {
-            return instance!!
+            return INSTANCE!!
         }
 
         fun init(context: Application) {
             synchronized(this) {
-                if (instance == null) {
-                    instance = AppPreference(context)
+                if (INSTANCE == null) {
+                    INSTANCE = AppPreference(context)
                 }
             }
         }

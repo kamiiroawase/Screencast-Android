@@ -35,7 +35,7 @@ class LuzhiFragment : BaseFragment() {
     private lateinit var directoryPickerLauncher: ActivityResultLauncher<Intent>
 
     companion object {
-        var INSTANCE: LuzhiFragment? = null
+        private var INSTANCE: LuzhiFragment? = null
 
         fun getInstance(): LuzhiFragment {
             return INSTANCE!!

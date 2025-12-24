@@ -77,8 +77,8 @@ class FloaterWindowService : Service() {
             windowManager.addView(container, params)
             isShowing = true
             App.atomicFloaterBool.set(false)
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } catch (_: Exception) {
+            //
         }
     }
 
@@ -104,6 +104,7 @@ class FloaterWindowService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+
         removeFloatWindow()
     }
 

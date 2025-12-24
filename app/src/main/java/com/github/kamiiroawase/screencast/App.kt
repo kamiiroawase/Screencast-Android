@@ -18,19 +18,19 @@ class App : Application() {
         const val FLOATER_CHANNEL_ID = "d1f29586-ceb0-4fd9-9bda-32cc540743b0"
         const val RECORDING_CHANNEL_ID = "f47ac10b-58cc-4372-a567-0e02b2c3d479"
 
-        private var instance: App? = null
+        private var INSTANCE: App? = null
 
         val atomicFloaterBool = AtomicBoolean(false)
 
         fun getInstance(): App {
-            return instance!!
+            return INSTANCE!!
         }
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        instance = this
+        INSTANCE = this
 
         AppPreference.init(this)
 

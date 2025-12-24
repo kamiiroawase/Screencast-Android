@@ -527,7 +527,6 @@ class RegionSelectionActivity : AppCompatActivity() {
             val right = min(width.toFloat(), max(selectionRect.right, minSelectionSize))
             val bottom = min(height.toFloat(), max(selectionRect.bottom, minSelectionSize))
 
-            // 确保最小尺寸
             val width = right - left
             val height = bottom - top
 
