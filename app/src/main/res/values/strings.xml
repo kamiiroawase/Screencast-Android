@@ -54,7 +54,7 @@
     <string name="yishezhi">已设置</string>
 
     <string name="qushezhi">去设置</string>
-    <string name="xuyaosuoyouquanxian">需要所有权限才能保存录制文件</string>
+    <string name="xuyaosuoyouquanxian">需要所有权限才能保存录制文件（包括通知权限）</string>
     <string name="xuyaocunchuquanxian">需要存储权限才能保存录制文件</string>
     <string name="pingmuluzhiquanxianbeijujue">屏幕录制权限被拒绝</string>
     <string name="xuyaocunchuquanxian2">需要存储权限</string>

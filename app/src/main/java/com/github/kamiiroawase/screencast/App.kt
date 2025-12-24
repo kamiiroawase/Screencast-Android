@@ -15,7 +15,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class App : Application() {
     companion object {
-        const val FLOATER_CHANNEL_ID = "d1f29586-ceb0-4fd9-9bda-32cc540743b0"
         const val RECORDING_CHANNEL_ID = "f47ac10b-58cc-4372-a567-0e02b2c3d479"
 
         private var INSTANCE: App? = null
@@ -42,19 +41,6 @@ class App : Application() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = getSystemService(NotificationManager::class.java)
-
-            if (notificationManager.getNotificationChannel(FLOATER_CHANNEL_ID) == null) {
-                notificationManager.createNotificationChannel(
-                    NotificationChannel(
-                        FLOATER_CHANNEL_ID,
-                        getString(R.string.xuanfuqiu),
-                        NotificationManager.IMPORTANCE_LOW
-                    ).apply {
-                        setShowBadge(false)
-                        lockscreenVisibility = Notification.VISIBILITY_SECRET
-                    }
-                )
-            }
 
             if (notificationManager.getNotificationChannel(RECORDING_CHANNEL_ID) == null) {
                 notificationManager.createNotificationChannel(
