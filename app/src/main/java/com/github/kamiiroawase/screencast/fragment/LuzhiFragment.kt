@@ -203,7 +203,7 @@ class LuzhiFragment : BaseFragment() {
                 .setTitle(getString(R.string.shipinduanbianchangdu))
                 .setItems(
                     arrayOf(
-                        "默认", "1080P", "720P", "480P", "360P"
+                        getString(R.string.moren), "1080P", "720P", "480P", "360P"
                     )
                 ) { dialog, which ->
                     when (which) {

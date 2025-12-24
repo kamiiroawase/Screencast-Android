@@ -467,12 +467,15 @@ class ScreenRecorderService : Service() {
                 }.apply {
                     setVideoSource(MediaRecorder.VideoSource.SURFACE)
 
+                    if (isNeedAudio == 2) {
+                        setAudioSource(MediaRecorder.AudioSource.MIC)
+                    }
+
                     setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
 
                     setVideoEncoder(MediaRecorder.VideoEncoder.H264)
 
                     if (isNeedAudio == 2) {
-                        setAudioSource(MediaRecorder.AudioSource.MIC)
                         setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
                         setAudioEncodingBitRate(256000)
                         setAudioSamplingRate(44100)
