@@ -31,7 +31,11 @@ import java.util.*
 
 class ScreenRecorderService : Service() {
     companion object {
+        var isPaused = false
         var isRecording = false
+        var lastPauseTime: Long = 0
+        var totalPausedTime: Long = 0
+        var recordingStartTime: Long = 0
         private const val NOTIFICATION_ID = 9999
         const val EXTRA_RESULT_DATA = "EXTRA_RESULT_DATA"
         const val EXTRA_SCREEN_WIDTH = "EXTRA_SCREEN_WIDTH"
@@ -39,6 +43,8 @@ class ScreenRecorderService : Service() {
         const val EXTRA_SCREEN_DENSITY = "EXTRA_SCREEN_DENSITY"
         const val ACTION_STOP_RECORDING = "ACTION_STOP_RECORDING"
         const val ACTION_START_RECORDING = "ACTION_START_RECORDING"
+        const val ACTION_PAUSE_RECORDING = "ACTION_PAUSE_RECORDING"
+        const val ACTION_RESUME_RECORDING = "ACTION_RESUME_RECORDING"
     }
 
     private var mediaProjection: MediaProjection? = null
@@ -50,8 +56,6 @@ class ScreenRecorderService : Service() {
 
     private var displayWidth = 0
     private var displayHeight = 0
-    private var oriDisplayWidth = 0
-    private var oriDisplayHeight = 0
     private var screenDensity = 0
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -92,7 +96,7 @@ class ScreenRecorderService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_START_RECORDING -> {
-                startForegroundService()
+                updateForegroundService(true)
 
                 val data = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     intent.getParcelableExtra(EXTRA_RESULT_DATA, Intent::class.java)
@@ -112,13 +116,31 @@ class ScreenRecorderService : Service() {
             ACTION_STOP_RECORDING -> {
                 stopScreenRecording()
             }
+
+            ACTION_PAUSE_RECORDING -> {
+                pauseScreenRecording()
+            }
+
+            ACTION_RESUME_RECORDING -> {
+                resumeScreenRecording()
+            }
         }
 
         return START_STICKY
     }
 
     private fun onRecordStart() {
+        isPaused = false
         isRecording = true
+        lastPauseTime = 0
+        totalPausedTime = 0
+        recordingStartTime = System.currentTimeMillis()
+
+        try {
+            LuzhiFragment.getInstance().updateUiButtonKaishiluzhi()
+        } catch (_: Exception) {
+            //
+        }
 
         when (AppPreference.getInstance().getSettingsXuanfuqiuSwitch()) {
             "1" -> {
@@ -155,7 +177,14 @@ class ScreenRecorderService : Service() {
     }
 
     private fun onRecordStop() {
+        isPaused = false
         isRecording = false
+
+        try {
+            LuzhiFragment.getInstance().updateUiButtonKaishiluzhi()
+        } catch (_: Exception) {
+            //
+        }
 
         when (AppPreference.getInstance().getSettingsXuanfuqiuSwitch()) {
             "1" -> {
@@ -188,6 +217,87 @@ class ScreenRecorderService : Service() {
                     }
                 }
             }
+        }
+    }
+
+    private fun onRecordPause() {
+        isPaused = true
+        lastPauseTime = System.currentTimeMillis()
+
+        when (AppPreference.getInstance().getSettingsXuanfuqiuSwitch()) {
+            "1" -> {
+                if (FloaterWindowService.isShowing) {
+                    try {
+                        FloaterWindowService.floatBallView.setButtonPause()
+                    } catch (_: Exception) {
+                        //
+                    }
+                }
+            }
+        }
+
+        updateForegroundService(false)
+    }
+
+    private fun onRecordResume() {
+        isPaused = false
+        totalPausedTime += (System.currentTimeMillis() - lastPauseTime)
+
+        when (AppPreference.getInstance().getSettingsXuanfuqiuSwitch()) {
+            "1" -> {
+                if (FloaterWindowService.isShowing) {
+                    try {
+                        FloaterWindowService.floatBallView.setButtonStart()
+                    } catch (_: Exception) {
+                        //
+                    }
+                }
+            }
+        }
+
+        updateForegroundService(false)
+    }
+
+    private fun startScreenRecording(data: Intent) {
+        try {
+            val projectionManager = getSystemService(MEDIA_PROJECTION_SERVICE)
+                    as MediaProjectionManager
+
+            mediaProjection = projectionManager.getMediaProjection(Activity.RESULT_OK, data)
+
+            if (mediaProjection == null) {
+                stopSelf()
+                return
+            }
+
+            mediaProjectionCallback = object : MediaProjection.Callback() {
+                override fun onStop() {
+                    Handler(Looper.getMainLooper()).post {
+                        stopScreenRecording()
+                    }
+                }
+            }
+
+            mediaProjection?.registerCallback(mediaProjectionCallback!!, null)
+
+            initMediaRecorder { success ->
+                if (success) {
+                    if (!createVirtualDisplay()) {
+                        try {
+                            mediaRecorder?.start()
+                            onRecordStart()
+                        } catch (_: Exception) {
+                            stopSelf()
+                        }
+                    } else {
+                        stopSelf()
+                    }
+                } else {
+                    stopSelf()
+                }
+            }
+        } catch (_: Exception) {
+            stopSelf()
         }
     }
 
@@ -244,70 +354,39 @@ class ScreenRecorderService : Service() {
 
         onRecordStop()
 
-        try {
-            LuzhiFragment.getInstance().updateUiButtonKaishiluzhi()
-        } catch (_: Exception) {
-            //
-        }
-
         virtualDisplay = null
         mediaProjectionCallback = null
         mediaProjection = null
         mediaRecorder = null
     }
 
-    private fun startScreenRecording(data: Intent) {
+    private fun pauseScreenRecording() {
+        if (!isRecording || isPaused) {
+            return
+        }
+
         try {
-            val projectionManager = getSystemService(MEDIA_PROJECTION_SERVICE)
-                    as MediaProjectionManager
-
-            mediaProjection = projectionManager.getMediaProjection(Activity.RESULT_OK, data)
-
-            if (mediaProjection == null) {
-                stopSelf()
-                return
-            }
-
-            mediaProjectionCallback = object : MediaProjection.Callback() {
-                override fun onStop() {
-                    Handler(Looper.getMainLooper()).post {
-                        stopScreenRecording()
-                    }
-                }
-            }
-
-            mediaProjection?.registerCallback(mediaProjectionCallback!!, null)
-
-            initMediaRecorder { success ->
-                if (success) {
-                    if (!createVirtualDisplay()) {
-                        try {
-                            mediaRecorder?.start()
-                            onRecordStart()
-                        } catch (_: Exception) {
-                            stopSelf()
-                        }
-                    } else {
-                        stopSelf()
-                    }
-
-                    if (isRecording) {
-                        try {
-                            LuzhiFragment.getInstance().updateUiButtonKaishiluzhi()
-                        } catch (_: Exception) {
-                            //
-                        }
-                    }
-                } else {
-                    stopSelf()
-                }
-            }
+            mediaRecorder?.pause()
+            onRecordPause()
         } catch (_: Exception) {
-            stopSelf()
+            //
         }
     }
 
-    private fun startForegroundService() {
+    private fun resumeScreenRecording() {
+        if (!isRecording || !isPaused) {
+            return
+        }
+
+        try {
+            mediaRecorder?.resume()
+            onRecordResume()
+        } catch (_: Exception) {
+            //
+        }
+    }
+
+    private fun updateForegroundService(isStart: Boolean) {
         val notificationIntent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
@@ -324,7 +403,7 @@ class ScreenRecorderService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notification = NotificationCompat.Builder(this, App.RECORDING_CHANNEL_ID)
+        val notificationBuilder = NotificationCompat.Builder(this, App.RECORDING_CHANNEL_ID)
             .setContentTitle(getString(R.string.pingmuluzhizhong))
             .setContentText(getString(R.string.zhengzailuzhinindepingmu))
             .setSmallIcon(android.R.drawable.ic_menu_camera)
@@ -337,10 +416,49 @@ class ScreenRecorderService : Service() {
             .setVibrate(null)
             .addAction(
                 android.R.drawable.ic_media_pause,
-                getString(R.string.tingzhiluzhi),
+                getString(R.string.tingzhi),
                 stopPendingIntent
             )
-            .build()
+
+        val addPauseActionFn = fun() {
+            val pauseIntent = Intent(this, ScreenRecorderService::class.java).apply {
+                action = ACTION_PAUSE_RECORDING
+            }
+            val pausePendingIntent = PendingIntent.getService(
+                this, 3, pauseIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            notificationBuilder.addAction(
+                android.R.drawable.ic_media_pause,
+                getString(R.string.zanting),
+                pausePendingIntent
+            )
+        }
+
+        if (isRecording) {
+            if (isPaused) {
+                val resumeIntent = Intent(this, ScreenRecorderService::class.java).apply {
+                    action = ACTION_RESUME_RECORDING
+                }
+                val resumePendingIntent = PendingIntent.getService(
+                    this, 2, resumeIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+
+                notificationBuilder.addAction(
+                    android.R.drawable.ic_media_play,
+                    getString(R.string.jixu),
+                    resumePendingIntent
+                )
+            } else {
+                addPauseActionFn()
+            }
+        } else if (isStart) {
+            addPauseActionFn()
+        }
+
+        val notification = notificationBuilder.build()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(
@@ -540,9 +658,6 @@ class ScreenRecorderService : Service() {
         displayWidth = intent.getIntExtra(EXTRA_SCREEN_WIDTH, 0)
         displayHeight = intent.getIntExtra(EXTRA_SCREEN_HEIGHT, 0)
         screenDensity = intent.getIntExtra(EXTRA_SCREEN_DENSITY, 0)
-
-        oriDisplayWidth = displayWidth
-        oriDisplayHeight = displayHeight
 
         val fenbianlv = AppPreference.getInstance().getSettingsLupingfenbianlv().toInt()
 

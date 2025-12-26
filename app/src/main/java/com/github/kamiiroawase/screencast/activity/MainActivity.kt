@@ -9,20 +9,18 @@ import com.github.kamiiroawase.screencast.fragment.WodeFragment
 import com.github.kamiiroawase.screencast.fragment.LuzhiFragment
 
 class MainActivity : BaseActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private val currentItemIdName = "CURRENT_ITEM_ID"
 
     private var currentItemId = R.id.navigationLuzhi
 
-    private lateinit var fragments: Map<Int, Fragment>
+    private lateinit var binding: ActivityMainBinding
 
-    companion object {
-        private const val CURRENT_ITEM_ID = "CURRENT_ITEM_ID"
-    }
+    private lateinit var fragments: Map<Int, Fragment>
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(CURRENT_ITEM_ID, currentItemId)
+        outState.putInt(currentItemIdName, currentItemId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +75,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun restoreFragments(savedInstanceState: Bundle) {
-        currentItemId = savedInstanceState.getInt(CURRENT_ITEM_ID, R.id.navigationLuzhi)
+        currentItemId = savedInstanceState.getInt(currentItemIdName, R.id.navigationLuzhi)
 
         val zitiFragment = supportFragmentManager.findFragmentByTag(R.id.navigationLuzhi.toString()) as? LuzhiFragment
             ?: LuzhiFragment()

@@ -4,7 +4,7 @@
     <string name="pingmuluzhizhong">Screen recording in progress</string>
     <string name="zhengzailuzhinindepingmu">Recording your screen now</string>
 
-    <string name="luzhi">Record</string>
+    <string name="luping">Record</string>
     <string name="shipin">Video</string>
     <string name="wode">Me</string>
 
@@ -24,6 +24,8 @@
 
     <string name="kaishiluzhi">Start Recording</string>
     <string name="tingzhiluzhi">Stop Recording</string>
+    <string name="zantingluzhi">Pause Recording</string>
+    <string name="jixuluzhi">Resume Recording</string>
     <string name="shengyinlaiyuan">Audio Source</string>
     <string name="lupingfenbianlv">Recording Resolution</string>
     <string name="lupinghuazhi">Recording Quality</string>
@@ -35,6 +37,8 @@
 
     <string name="on">On</string>
     <string name="off">Off</string>
+    <string name="jixu">Resume</string>
+    <string name="zanting">Pause</string>
     <string name="moren">Default</string>
     <string name="shuping">Portrait</string>
     <string name="hengping">Landscape</string>

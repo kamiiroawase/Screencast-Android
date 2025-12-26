@@ -166,7 +166,7 @@ class LuzhiFragment : BaseFragment() {
     fun setButtonClickListeners() {
         binding.buttonKaishiluzhi.setOnClickListener {
             if (!ScreenRecorderService.isRecording) {
-                screenCapturePreStart {}
+                screenCapturePreStart({})
             } else {
                 stopScreenRecording()
             }
@@ -297,6 +297,8 @@ class LuzhiFragment : BaseFragment() {
                     ) { dialog, which ->
                         when (which) {
                             0 -> {
+                                FloaterWindowService.isShouldShowing = false
+
                                 AppPreference.getInstance().setSettingsXuanfuqiuSwitch("0")
 
                                 requireContext().startService(
@@ -391,8 +393,9 @@ class LuzhiFragment : BaseFragment() {
         }
     }
 
-    fun screenCapturePreStart(callback: () -> Unit) {
+    fun screenCapturePreStart(callback: () -> Unit, permissionCallback: (() -> Unit)? = null) {
         pendingStartCallback = callback
+        pendingPermissionCallback = permissionCallback
 
         val permissionsNeeded = mutableListOf<String>()
 
@@ -445,12 +448,13 @@ class LuzhiFragment : BaseFragment() {
             }
         }
 
-        // 通知权限（Android 13+）
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            boolean2 = fn2(Manifest.permission.POST_NOTIFICATIONS)
+        if (pendingPermissionCallback == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                boolean2 = fn2(Manifest.permission.POST_NOTIFICATIONS)
 
-            if (boolean2) {
-                permissionsNeeded.add(Manifest.permission.POST_NOTIFICATIONS)
+                if (boolean2) {
+                    permissionsNeeded.add(Manifest.permission.POST_NOTIFICATIONS)
+                }
             }
         }
 
@@ -504,8 +508,6 @@ class LuzhiFragment : BaseFragment() {
         }
 
         pendingStartCallback?.invoke()
-
-//        myShortToast(getString(R.string.kaishiluzhi))
     }
 
     fun stopScreenRecording() {
@@ -524,10 +526,16 @@ class LuzhiFragment : BaseFragment() {
 
     private var pendingStartCallback: (() -> Unit)? = null
 
+    private var pendingPermissionCallback: (() -> Unit)? = null
+
     private val requestPermissions =
         registerForActivityResult(RequestMultiplePermissions()) { permissions ->
             if (!permissions.all { it.value }) {
-                myShortToast(getString(R.string.xuyaosuoyouquanxian))
+                if (pendingPermissionCallback == null) {
+                    screenCapturePreStart({}, {
+                        myShortToast(getString(R.string.xuyaosuoyouquanxian))
+                    })
+                }
             } else {
                 requestScreenCapturePermission()
             }

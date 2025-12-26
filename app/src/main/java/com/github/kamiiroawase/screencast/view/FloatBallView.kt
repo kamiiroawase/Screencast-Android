@@ -2,13 +2,17 @@ package com.github.kamiiroawase.screencast.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import kotlin.math.abs
 import androidx.core.graphics.toColorInt
+import com.github.kamiiroawase.screencast.App
+import com.github.kamiiroawase.screencast.activity.MainActivity
 import com.github.kamiiroawase.screencast.fragment.LuzhiFragment
+import com.github.kamiiroawase.screencast.preference.AppPreference
 import com.github.kamiiroawase.screencast.service.ScreenRecorderService
 
 class FloatBallView @JvmOverloads constructor(
@@ -28,13 +32,11 @@ class FloatBallView @JvmOverloads constructor(
     private var lastX = 0f
     private var lastY = 0f
     private var isDragging = false
-    private var initialTouchX = 0f
-    private var initialTouchY = 0f
 
-    private var ballColor = "#FFFFFF".toColorInt()
-    private var ringColor = "#FF0000".toColorInt()
-    private var buttonStopColor = "#FF0000".toColorInt()
-    private var buttonStartColor = "#FF0000".toColorInt()
+    private var ballColor = "#00FFFFFF".toColorInt()
+    private var ringColor = "#00FF0000".toColorInt()
+    private var buttonStopColor = "#00FF0000".toColorInt()
+    private var buttonStartColor = "#00FF0000".toColorInt()
 
     private val tempRect = RectF()
 
@@ -88,6 +90,8 @@ class FloatBallView @JvmOverloads constructor(
 
         if (ScreenRecorderService.isRecording) {
             setButtonStart()
+        } else {
+            setButtonStop()
         }
     }
 
@@ -100,8 +104,6 @@ class FloatBallView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
                 lastX = x
                 lastY = y
-                initialTouchX = x
-                initialTouchY = y
                 isDragging = false
                 return true
             }
@@ -114,29 +116,41 @@ class FloatBallView @JvmOverloads constructor(
                     isDragging = true
                 }
 
-                if (isDragging) {
-                    onBallMovedListener?.invoke(dx, dy)
-                }
+                lastX = x - centerX
+                lastY = y - centerY
 
-                lastX = x
-                lastY = y
+                onBallMovedListener?.invoke(lastX, lastY)
             }
 
             MotionEvent.ACTION_UP -> {
                 if (!isDragging) {
                     onBallClickListener?.invoke()
                     if (ScreenRecorderService.isRecording) {
-                        try {
-                            LuzhiFragment.getInstance().stopScreenRecording()
-                            setButtonStop()
-                        } catch (_: Exception) {
-                            //
+                        if (ScreenRecorderService.isPaused) {
+                            try {
+                                LuzhiFragment.getInstance().stopScreenRecording()
+                                setButtonStart()
+                            } catch (_: Exception) {
+                                //
+                            }
+                        } else {
+                            try {
+                                LuzhiFragment.getInstance().stopScreenRecording()
+                                setButtonStop()
+                            } catch (_: Exception) {
+                                //
+                            }
                         }
                     } else {
                         try {
-                            LuzhiFragment.getInstance().screenCapturePreStart {
+                            context.startActivity(Intent(App.getInstance(), MainActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                                        Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            })
+
+                            LuzhiFragment.getInstance().screenCapturePreStart({
                                 setButtonStart()
-                            }
+                            })
                         } catch (_: Exception) {
                             //
                         }
@@ -154,16 +168,31 @@ class FloatBallView @JvmOverloads constructor(
     }
 
     fun setButtonStart() {
-        buttonStartColor = "#FFFFFF".toColorInt()
+        buttonStartColor = "#FFFFFFFF".toColorInt()
+        buttonStopColor = "#FFFF0000".toColorInt()
+        ringColor = "#FFFF0000".toColorInt()
+        ballColor = "#FFFFFFFF".toColorInt()
         invalidate()
     }
 
     fun setButtonStop() {
-        buttonStartColor = "#FF0000".toColorInt()
+        buttonStartColor = "#FFFF0000".toColorInt()
+        buttonStopColor = "#FFFF0000".toColorInt()
+        ringColor = "#FFFF0000".toColorInt()
+        ballColor = "#FFFFFFFF".toColorInt()
+        invalidate()
+    }
+
+    fun setButtonPause() {
+        buttonStartColor = "#FFFF0000".toColorInt()
+        buttonStopColor = "#FFFF0000".toColorInt()
+        ringColor = "#FFFF0000".toColorInt()
+        ballColor = "#FFFFFFFF".toColorInt()
         invalidate()
     }
 
     private fun onDragEnd() {
         isDragging = false
+        AppPreference.getInstance().setSettingsXuanfuqiuLocation(lastX, lastY)
     }
 }

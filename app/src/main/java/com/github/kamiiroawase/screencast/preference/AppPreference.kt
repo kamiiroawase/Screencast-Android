@@ -114,4 +114,18 @@ class AppPreference(private val context: Application) {
     fun setSettingsBaocunmulu(value: String) {
         getSettingsPreferences().edit { putString("baocunmulu", value) }
     }
+
+    fun getSettingsXuanfuqiuLocation(): Pair<Float, Float> {
+        return Pair(
+            getSettingsPreferences().getFloat("xuanfuqiu_location_x", 9999f),
+            getSettingsPreferences().getFloat("xuanfuqiu_location_y", 600f)
+        )
+    }
+
+    fun setSettingsXuanfuqiuLocation(x: Float, y: Float) {
+        getSettingsPreferences().edit {
+            putFloat("xuanfuqiu_location_x", x)
+            putFloat("xuanfuqiu_location_y", y)
+        }
+    }
 }

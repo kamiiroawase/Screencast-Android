@@ -155,8 +155,6 @@ class RegionSelectionActivity : AppCompatActivity() {
         defStyleAttr: Int = 0
     ) : View(context, attrs, defStyleAttr) {
         private var selectionRect = RectF()
-        private var isResizing = false
-        private var isMoving = false
         private var touchMode = TouchMode.NONE
 
         private var lastTouchX = 0f
@@ -307,12 +305,10 @@ class RegionSelectionActivity : AppCompatActivity() {
 
                     touchMode = when {
                         isTouchOnSelection(event.x, event.y) && resizeEdge == ResizeEdge.NONE -> {
-                            isMoving = true
                             TouchMode.MOVE
                         }
 
                         resizeEdge != ResizeEdge.NONE -> {
-                            isResizing = true
                             TouchMode.RESIZE
                         }
 
@@ -365,8 +361,6 @@ class RegionSelectionActivity : AppCompatActivity() {
                 }
 
                 MotionEvent.ACTION_UP -> {
-                    isResizing = false
-                    isMoving = false
                     touchMode = TouchMode.NONE
                     resizeEdge = ResizeEdge.NONE
 
@@ -386,8 +380,6 @@ class RegionSelectionActivity : AppCompatActivity() {
                 }
 
                 MotionEvent.ACTION_CANCEL -> {
-                    isResizing = false
-                    isMoving = false
                     touchMode = TouchMode.NONE
                     resizeEdge = ResizeEdge.NONE
                     return true

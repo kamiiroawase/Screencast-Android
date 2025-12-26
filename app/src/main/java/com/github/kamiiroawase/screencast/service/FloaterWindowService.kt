@@ -8,6 +8,7 @@ import android.os.IBinder
 import android.view.*
 import android.widget.FrameLayout
 import com.github.kamiiroawase.screencast.App
+import com.github.kamiiroawase.screencast.preference.AppPreference
 import com.github.kamiiroawase.screencast.view.FloatBallView
 
 class FloaterWindowService : Service() {
@@ -34,8 +35,10 @@ class FloaterWindowService : Service() {
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
         gravity = Gravity.START or Gravity.TOP
 
-        x = 300
-        y = 300
+        val (xx, yy) = AppPreference.getInstance().getSettingsXuanfuqiuLocation()
+
+        x = xx.toInt()
+        y = yy.toInt()
 
         width = WindowManager.LayoutParams.WRAP_CONTENT
         height = WindowManager.LayoutParams.WRAP_CONTENT
@@ -65,8 +68,8 @@ class FloaterWindowService : Service() {
             }
 
             onBallMovedListener = { dx, dy ->
-                params.x += dx.toInt()
-                params.y += dy.toInt()
+                params.x = dx.toInt()
+                params.y = dy.toInt()
                 windowManager.updateViewLayout(container, params)
             }
         }

@@ -4,7 +4,7 @@
     <string name="pingmuluzhizhong">屏幕录制中</string>
     <string name="zhengzailuzhinindepingmu">正在录制您的屏幕</string>
 
-    <string name="luzhi">录制</string>
+    <string name="luping">录制</string>
     <string name="shipin">视频</string>
     <string name="wode">我的</string>
 
@@ -24,6 +24,8 @@
 
     <string name="kaishiluzhi">开始录制</string>
     <string name="tingzhiluzhi">停止录制</string>
+    <string name="zantingluzhi">暂停录制</string>
+    <string name="jixuluzhi">继续录制</string>
     <string name="shengyinlaiyuan">声音来源</string>
     <string name="lupingfenbianlv">录屏分辨率</string>
     <string name="lupinghuazhi">录屏画质</string>
@@ -35,6 +37,8 @@
 
     <string name="on">开</string>
     <string name="off">关</string>
+    <string name="jixu">继续</string>
+    <string name="zanting">暂停</string>
     <string name="moren">默认</string>
     <string name="shuping">竖屏</string>
     <string name="hengping">横屏</string>

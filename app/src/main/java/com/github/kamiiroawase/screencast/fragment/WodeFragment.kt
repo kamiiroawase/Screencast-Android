@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.github.kamiiroawase.screencast.activity.WebActivity
 import com.github.kamiiroawase.screencast.activity.FeedbackActivity
 import com.github.kamiiroawase.screencast.databinding.FragmentWodeBinding
+import com.github.kamiiroawase.screencast.R
 
 class WodeFragment : BaseFragment() {
     private var _binding: FragmentWodeBinding? = null
@@ -60,14 +61,13 @@ class WodeFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setUpDangqianbanbenUI() {
-        binding.buttonDangqianbanbenText.text =
-            binding.buttonDangqianbanbenText.text.toString() +
-                    " V" + (
-                    requireActivity()
-                        .packageManager
-                        .getPackageInfo(requireActivity().packageName, 0)
-                        .versionName
-                        ?: ""
-                    )
+        binding.buttonDangqianbanbenText.text = getString(R.string.dangqianbanben) +
+                " V" + (
+                requireActivity()
+                    .packageManager
+                    .getPackageInfo(requireActivity().packageName, 0)
+                    .versionName
+                    ?: ""
+                )
     }
 }
