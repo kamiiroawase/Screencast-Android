@@ -186,7 +186,8 @@ class LuzhiFragment : BaseFragment() {
 //                        getString(R.string.xitongneishengyin),
                         getString(R.string.maikefengshengyin)
                     )
-                ) { dialog, which ->
+                )
+                { dialog, which ->
                     when (which) {
                         0 -> AppPreference.getInstance().setSettingsAudioRecordSwitch("0")
 //                        1 -> AppPreference.getInstance().setSettingsAudioRecordSwitch("1")
@@ -194,7 +195,10 @@ class LuzhiFragment : BaseFragment() {
                     }
 
                     updateUiButtonShengyinlaiyuan()
-                }.setNegativeButton(getString(R.string.quxiao), null).create().show()
+                }
+                .setNegativeButton(getString(R.string.quxiao), null)
+                .create()
+                .show()
         }
 
         binding.buttonLupingfenbianlv.setOnClickListener {
@@ -205,7 +209,8 @@ class LuzhiFragment : BaseFragment() {
                     arrayOf(
                         getString(R.string.moren), "1080P", "720P", "480P", "360P"
                     )
-                ) { dialog, which ->
+                )
+                { dialog, which ->
                     when (which) {
                         0 -> AppPreference.getInstance().setSettingsLupingfenbianlv("0")
                         1 -> AppPreference.getInstance().setSettingsLupingfenbianlv("1080")
@@ -215,7 +220,10 @@ class LuzhiFragment : BaseFragment() {
                     }
 
                     updateUiButtonLupingfenbianlv()
-                }.setNegativeButton(getString(R.string.quxiao), null).create().show()
+                }
+                .setNegativeButton(getString(R.string.quxiao), null)
+                .create()
+                .show()
         }
 
         binding.buttonLupinghuazhi.setOnClickListener {
@@ -226,7 +234,8 @@ class LuzhiFragment : BaseFragment() {
                     arrayOf(
                         "50Mbps", "32Mbps", "24Mbps", "16Mbps", "8Mbps", "6Mbps", "4Mbps", "1Mbps"
                     )
-                ) { dialog, which ->
+                )
+                { dialog, which ->
                     when (which) {
                         0 -> AppPreference.getInstance().setSettingsLupinghuazhi("50")
                         1 -> AppPreference.getInstance().setSettingsLupinghuazhi("32")
@@ -239,7 +248,10 @@ class LuzhiFragment : BaseFragment() {
                     }
 
                     updateUiButtonLupinghuazhi()
-                }.setNegativeButton(getString(R.string.quxiao), null).create().show()
+                }
+                .setNegativeButton(getString(R.string.quxiao), null)
+                .create()
+                .show()
         }
 
         binding.buttonLupingfangxiang.setOnClickListener {
@@ -250,14 +262,18 @@ class LuzhiFragment : BaseFragment() {
                     arrayOf(
                         getString(R.string.shuping), getString(R.string.hengping)
                     )
-                ) { dialog, which ->
+                )
+                { dialog, which ->
                     when (which) {
                         0 -> AppPreference.getInstance().setSettingsLupingfangxiang("1")
                         1 -> AppPreference.getInstance().setSettingsLupingfangxiang("2")
                     }
 
                     updateUiButtonLupingfangxiang()
-                }.setNegativeButton(getString(R.string.quxiao), null).create().show()
+                }
+                .setNegativeButton(getString(R.string.quxiao), null)
+                .create()
+                .show()
         }
 
         binding.buttonLupingzhenshu.setOnClickListener {
@@ -268,7 +284,8 @@ class LuzhiFragment : BaseFragment() {
                     arrayOf(
                         "120FPS", "60FPS", "50FPS", "30FPS", "25FPS", "24FPS", "15FPS"
                     )
-                ) { dialog, which ->
+                )
+                { dialog, which ->
                     when (which) {
                         0 -> AppPreference.getInstance().setSettingsLupingzhenshu("120")
                         1 -> AppPreference.getInstance().setSettingsLupingzhenshu("60")
@@ -280,7 +297,10 @@ class LuzhiFragment : BaseFragment() {
                     }
 
                     updateUiButtonLupingzhenshu()
-                }.setNegativeButton(getString(R.string.quxiao), null).create().show()
+                }
+                .setNegativeButton(getString(R.string.quxiao), null)
+                .create()
+                .show()
         }
 
         binding.buttonXuanfuqiu.setOnClickListener {
@@ -294,7 +314,8 @@ class LuzhiFragment : BaseFragment() {
                             getString(R.string.luzhishibuyincang),
                             getString(R.string.luzhishiyincang)
                         )
-                    ) { dialog, which ->
+                    )
+                    { dialog, which ->
                         when (which) {
                             0 -> {
                                 FloaterWindowService.isShouldShowing = false
@@ -356,7 +377,10 @@ class LuzhiFragment : BaseFragment() {
                         }
 
                         updateUiButtonXuanfuqiu()
-                    }.setNegativeButton(getString(R.string.quxiao), null).create().show()
+                    }
+                    .setNegativeButton(getString(R.string.quxiao), null)
+                    .create()
+                    .show()
             } else {
                 val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
                 intent.data = "package:${requireContext().packageName}".toUri()
