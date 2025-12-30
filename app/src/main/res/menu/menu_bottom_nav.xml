@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigationLuzhi"
+        android:icon="@drawable/ic_menu_luzhi"
+        android:title="@string/luping" />
+<!--    <item-->
+<!--        android:id="@+id/navigationShipin"-->
+<!--        android:icon="@drawable/ic_menu_shipin"-->
+<!--        android:title="@string/shipin" />-->
+    <item
+        android:id="@+id/navigationWode"
+        android:icon="@drawable/ic_menu_wode"
+        android:title="@string/wode" />
+</menu>

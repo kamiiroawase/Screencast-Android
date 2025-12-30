@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">录屏</string>
+
+    <string name="pingmuluzhizhong">屏幕录制中</string>
+    <string name="zhengzailuzhinindepingmu">正在录制您的屏幕</string>
+
+    <string name="luping">录制</string>
+    <string name="shipin">视频</string>
+    <string name="wode">我的</string>
+
+    <string name="yonghuxieyi">用户协议</string>
+    <string name="yinsixieyi">隐私协议</string>
+    <string name="yijianfankui">意见反馈</string>
+    <string name="dangqianbanben">当前版本</string>
+
+    <string name="lianxifangshi">联系方式</string>
+    <string name="lianxifangshi2">输入正确手机号</string>
+    <string name="qingshurushoujihao">请输入手机号</string>
+    <string name="fankuiyijian">反馈意见</string>
+    <string name="fankuiyijian2">请输入您要反馈的内容</string>
+    <string name="fankuiyijian3">请输入您要反馈的内容</string>
+    <string name="lijitijiao">立即提交</string>
+    <string name="tijiaochenggong">提交成功</string>
+
+    <string name="kaishiluzhi">开始录制</string>
+    <string name="tingzhiluzhi">停止录制</string>
+    <string name="zantingluzhi">暂停录制</string>
+    <string name="jixuluzhi">继续录制</string>
+    <string name="shengyinlaiyuan">声音来源</string>
+    <string name="lupingfenbianlv">录屏分辨率</string>
+    <string name="lupinghuazhi">录屏画质</string>
+    <string name="lupingquyu">录屏区域</string>
+    <string name="lupingfangxiang">录屏方向</string>
+    <string name="lupingzhenshu">录屏帧数</string>
+    <string name="baocunmulu">保存目录</string>
+    <string name="xuanfuqiu">悬浮球</string>
+
+    <string name="on">开</string>
+    <string name="off">关</string>
+    <string name="jixu">继续</string>
+    <string name="zanting">暂停</string>
+    <string name="moren">默认</string>
+    <string name="shuping">竖屏</string>
+    <string name="hengping">横屏</string>
+    <string name="quxiao">取消</string>
+    <string name="tingzhi">停止</string>
+    <string name="wushengyin">无声音</string>
+    <string name="xitongneishengyin">系统内声音</string>
+    <string name="maikefengshengyin">麦克风声音</string>
+    <string name="shipinduanbianchangdu">视频短边长度，越高视频越清晰</string>
+    <string name="huazhiyuegaoyuehao">越高画质越好，生成的文件也会越大</string>
+    <string name="shengchengdeshipinfangxiang">生成的视频方向</string>
+    <string name="meimiaoluzhidezhenshu">每秒录制的帧数，越高画面越流畅</string>
+    <string name="luzhishiyincang">开 - 录制时隐藏</string>
+    <string name="luzhishibuyincang">开 - 录制时不隐藏</string>
+    <string name="qingchuxuanzequyu">清除选择区域</string>
+    <string name="querenxuanzequyu">确认选择区域</string>
+    <string name="yishezhi">已设置</string>
+
+    <string name="qushezhi">去设置</string>
+    <string name="xuyaosuoyouquanxian">需要所有权限才能保存录制文件（包括通知权限）</string>
+    <string name="xuyaocunchuquanxian">需要存储权限才能保存录制文件</string>
+    <string name="pingmuluzhiquanxianbeijujue">屏幕录制权限被拒绝</string>
+    <string name="xuyaocunchuquanxian2">需要存储权限</string>
+    <string name="weilebaocunluzhideshipinwenjian">为了保存录制的视频文件，需要授予管理所有文件的权限</string>
+</resources>

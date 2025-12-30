@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">Screencast</string>
+
+    <string name="pingmuluzhizhong">Screen recording in progress</string>
+    <string name="zhengzailuzhinindepingmu">Recording your screen now</string>
+
+    <string name="luping">Record</string>
+    <string name="shipin">Video</string>
+    <string name="wode">Me</string>
+
+    <string name="yonghuxieyi">User Agreement</string>
+    <string name="yinsixieyi">Privacy Policy</string>
+    <string name="yijianfankui">Feedback</string>
+    <string name="dangqianbanben">Version</string>
+
+    <string name="lianxifangshi">E-mail</string>
+    <string name="lianxifangshi2">Enter a valid E-mail</string>
+    <string name="qingshurushoujihao">Please enter your E-mail</string>
+    <string name="fankuiyijian">Feedback</string>
+    <string name="fankuiyijian2">Please enter your feedback</string>
+    <string name="fankuiyijian3">Please enter your feedback</string>
+    <string name="lijitijiao">Submit</string>
+    <string name="tijiaochenggong">Successful</string>
+
+    <string name="kaishiluzhi">Start Recording</string>
+    <string name="tingzhiluzhi">Stop Recording</string>
+    <string name="zantingluzhi">Pause Recording</string>
+    <string name="jixuluzhi">Resume Recording</string>
+    <string name="shengyinlaiyuan">Audio Source</string>
+    <string name="lupingfenbianlv">Recording Resolution</string>
+    <string name="lupinghuazhi">Recording Quality</string>
+    <string name="lupingquyu">Recording Area</string>
+    <string name="lupingfangxiang">Recording Orientation</string>
+    <string name="lupingzhenshu">Recording Frame Rate</string>
+    <string name="baocunmulu">Save Directory</string>
+    <string name="xuanfuqiu">Floating Ball</string>
+
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="jixu">Resume</string>
+    <string name="zanting">Pause</string>
+    <string name="moren">Default</string>
+    <string name="shuping">Portrait</string>
+    <string name="hengping">Landscape</string>
+    <string name="quxiao">Cancel</string>
+    <string name="tingzhi">Stop</string>
+    <string name="wushengyin">No Audio</string>
+    <string name="xitongneishengyin">System Audio</string>
+    <string name="maikefengshengyin">MIC Audio</string>
+    <string name="shipinduanbianchangdu">Recording Resolution</string>
+    <string name="huazhiyuegaoyuehao">Recording Quality</string>
+    <string name="shengchengdeshipinfangxiang">Recording Orientation</string>
+    <string name="meimiaoluzhidezhenshu">Recording Frame Rate</string>
+    <string name="luzhishiyincang">Hide during recording</string>
+    <string name="luzhishibuyincang">On</string>
+    <string name="qingchuxuanzequyu">Clear Selected Area</string>
+    <string name="querenxuanzequyu">Confirm Selected Area</string>
+    <string name="yishezhi">Already set</string>
+
+    <string name="qushezhi">Go</string>
+    <string name="xuyaosuoyouquanxian">All permissions (including notification permission) are required to save recorded files.</string>
+    <string name="xuyaocunchuquanxian">Storage permission is required to save recorded files.</string>
+    <string name="pingmuluzhiquanxianbeijujue">Screen recording permission denied.</string>
+    <string name="xuyaocunchuquanxian2">Storage permission required.</string>
+    <string name="weilebaocunluzhideshipinwenjian">To save recorded video files, permission to manage all files is required.</string>
+</resources>
